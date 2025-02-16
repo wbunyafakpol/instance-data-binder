@@ -17,9 +17,9 @@ internal static class MetadataServiceFactory
             case "aws":
                 return new AwsMetadataService(new AwsSetting(config));
             case "azure":
-                return new AzureMetadataService();
+                return new AzureMetadataService(new AzureSetting(config));
             case "gcp":
-                return new GcpMetadataService();
+                return new GcpMetadataService(new GcpSetting(config));
             default:
                 throw new ArgumentException("Invalid cloud provider specified");
         }

@@ -2,29 +2,40 @@
 
 internal class Program
 {
+    private static string? _cloudProvider;
+    private static string? _instanceId;
     static async Task Main(string[] args)
     {
-        Console.WriteLine("Enter cloud provider (aws/azure/gcp):");
-        string? cloudProvider = Console.ReadLine();
-        Console.WriteLine("Enter instance id:");
-        string? instanceId = Console.ReadLine();
-
-        try
+        while (_cloudProvider != "exit") 
         {
-            if (string.IsNullOrWhiteSpace(cloudProvider) || string.IsNullOrWhiteSpace(instanceId))
+            try
             {
-                Console.WriteLine("Please enter correct cloud provider and instance id");
-                return;
-            }
+                InputBinding();
+    
+            if (string.IsNullOrWhiteSpace(_cloudProvider) || string.IsNullOrWhiteSpace(_instanceId))
+                {
+                    Console.WriteLine("Please enter correct cloud provider and instance id");
+                    return;
+                }
 
-            var metadataService = MetadataServiceFactory.CreateMetadataService(cloudProvider);
-            string metadata = await metadataService.GetMetadataAsync(instanceId);
-            Console.WriteLine($"Metadata for {cloudProvider}, instance id: {instanceId}");
-            Console.WriteLine(metadata);
+                var metadataService = MetadataServiceFactory.CreateMetadataService(_cloudProvider);
+                string metadata = await metadataService.GetMetadataAsync(_instanceId);
+                Console.WriteLine($"Metadata for {_cloudProvider}, instance id: {_instanceId}");
+                Console.WriteLine(metadata);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
         }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error: {ex.Message}");
-        }
+    }
+
+    private static void InputBinding()
+    {
+
+        Console.WriteLine("Enter cloud provider (aws/azure/gcp) or exit:");
+        _cloudProvider = Console.ReadLine();
+        Console.WriteLine("Enter instance id:");
+        _instanceId = Console.ReadLine();
     }
 }
