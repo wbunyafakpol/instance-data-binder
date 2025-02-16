@@ -17,9 +17,19 @@ internal static class MetadataServiceFactory
             case "aws":
                 return new AwsMetadataService(new AwsSetting(config));
             case "azure":
-                return new AzureMetadataService(new AzureSetting(config));
+                Console.WriteLine("Enter resource group:");
+                var resourceGroup = Console.ReadLine();
+
+                if (string.IsNullOrWhiteSpace(resourceGroup))
+                {
+                    throw new ArgumentException("Please enter correct resource group");
+                }
+
+                return new AzureMetadataService(new AzureSetting(config, resourceGroup));
             case "gcp":
-                return new GcpMetadataService(new GcpSetting(config));
+                Console.WriteLine("Enter zone(default us-central1-a):");
+                var zone = Console.ReadLine() ?? "us-central1-a";
+                return new GcpMetadataService(new GcpSetting(config, zone));
             default:
                 throw new ArgumentException("Invalid cloud provider specified");
         }

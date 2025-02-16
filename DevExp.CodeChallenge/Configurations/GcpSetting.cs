@@ -7,9 +7,9 @@ internal class GcpSetting
     public readonly string? ProjectId;
     public readonly string? Zone;
 
-    public GcpSetting(IConfigurationRoot configurationRoot)
+    public GcpSetting(IConfigurationRoot configurationRoot, string zone)
     {
         ProjectId = configurationRoot.GetValue<string>("Gcp:ProjectId")?.ToString();
-        Zone = configurationRoot.GetValue<string>("Gcp:Zone")?.ToString();
+        Zone = zone;
     }
 }

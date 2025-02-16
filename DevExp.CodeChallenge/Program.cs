@@ -32,7 +32,6 @@ internal class Program
 
     private static void InputBinding()
     {
-
         Console.WriteLine("Enter cloud provider (aws/azure/gcp) or exit:");
         _cloudProvider = Console.ReadLine();
         Console.WriteLine("Enter instance id:");
