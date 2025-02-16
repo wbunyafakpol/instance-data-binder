@@ -11,8 +11,16 @@ internal class Program
 
         try
         {
-            
-       
+            if (string.IsNullOrWhiteSpace(cloudProvider) || string.IsNullOrWhiteSpace(instanceId))
+            {
+                Console.WriteLine("Please enter correct cloud provider and instance id");
+                return;
+            }
+
+            var metadataService = MetadataServiceFactory.CreateMetadataService(cloudProvider);
+            string metadata = await metadataService.GetMetadataAsync(instanceId);
+            Console.WriteLine($"Metadata for {cloudProvider}, instance id: {instanceId}");
+            Console.WriteLine(metadata);
         }
         catch (Exception ex)
         {
